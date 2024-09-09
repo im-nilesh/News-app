@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'news_service.dart'; // Ensure this file has fetchNewsService function
+import '../screens/news_service.dart'; // Ensure this file has fetchNewsService function
 
 // Define a FutureProvider for fetching news
 final newsProvider =

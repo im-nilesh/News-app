@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:news_app/themes/theme_notifier.dart';
 import 'news_notifier.dart';
+import 'news_detail_page.dart'; // Import the detailed news page
 
 class NewsPage extends ConsumerWidget {
   @override
@@ -23,7 +24,7 @@ class NewsPage extends ConsumerWidget {
           IconButton(
             icon: Icon(Icons.brightness_6),
             onPressed: () {
-              // Toggle theme button (see part 2)
+              // Toggle theme button
               ref.read(themeNotifierProvider.notifier).toggleTheme();
             },
           )
@@ -32,7 +33,6 @@ class NewsPage extends ConsumerWidget {
       body: news.isEmpty
           ? Center(child: CircularProgressIndicator()) // Loading state
           : RefreshIndicator(
-              // Pull to Refresh
               onRefresh: () async {
                 notifier.clearNews(); // Clear existing news
                 await notifier.fetchNews(); // Fetch new news
@@ -58,25 +58,42 @@ class NewsPage extends ConsumerWidget {
                       );
                     }
                     var article = news[index];
-                    return Card(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              article['title'] ?? 'No title',
-                              style: Theme.of(context).textTheme.titleLarge,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NewsDetailPage(
+                              title: article['title'] ?? 'No title',
+                              description:
+                                  article['description'] ?? 'No description',
+                              content:
+                                  article['content'] ?? 'No content available',
+                              author: article['author'] ?? 'Unknown author',
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              article['description'] ??
-                                  'No description available',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                          ),
+                        );
+                      },
+                      child: Card(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                article['title'] ?? 'No title',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                article['description'] ??
+                                    'No description available',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

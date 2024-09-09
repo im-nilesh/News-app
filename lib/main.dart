@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:news_app/api/news_page.dart';
+import 'package:news_app/screens/news_page.dart';
 import 'package:news_app/themes/theme.dart';
 import 'package:news_app/themes/theme_notifier.dart';
 // Import theme notifier
